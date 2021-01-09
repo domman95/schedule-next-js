@@ -3,6 +3,7 @@ import CalendarBox from "../src/components/CalendarBox";
 import Datepicker from "../src/components/Datepicker";
 import Navbar from "../src/components/Navbar";
 import WorkersCheckbox from "../src/components/WorkersCheckbox";
+import { useAppContext } from "../src/context/state";
 
 const Container = styled.div`
   flex: 1;

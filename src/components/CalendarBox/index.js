@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import prev from "../../assets/prev.svg";
 import next from "../../assets/next.svg";
 import { hours } from "../../fakeData/data";
 import CalendarField from "../CalendarField";
+import { useAppContext } from "../../context/state";
+import getCurrentWeek from "../../utils/getCurrentWeek";
 
 const days = [
   {
@@ -68,8 +71,8 @@ const Title = styled.div`
       align-items: center;
       border: none;
       background-color: transparent;
-      width: 15px;
-      height: 15px;
+      width: 18px;
+      height: 18px;
       outline: none;
       cursor: pointer;
 
@@ -195,6 +198,13 @@ const WorkersColumn = styled.div`
       }
     }
 
+    .currentDay {
+      .textOfDay,
+      .numberOfDay {
+        color: var(--blue);
+      }
+    }
+
     .field {
       border-left: 1px solid #cecece;
       border-top: 1px solid #cecece;
@@ -214,48 +224,63 @@ const WorkersColumn = styled.div`
 `;
 
 export default function CalendarBox() {
+  const { dateValue, currentWeek } = useAppContext();
+
   return (
     <StyledCalendar>
       <Title>
-        <div className="currentDateAndArrowsBox">
-          <h2>December 17-21, 2019</h2>
-          <div className="arrows">
-            <button className="prevDate arrowButton">
-              <img src={prev} alt="" />
+        <div className='currentDateAndArrowsBox'>
+          <h2>
+            {dateValue.format("MMMM")}{" "}
+            {dateValue.clone().startOf("week").format("DD")}-
+            {dateValue.clone().endOf("week").format("DD")},{" "}
+            {dateValue.format("YYYY")}
+          </h2>
+          <div className='arrows'>
+            <button className='prevDate arrowButton'>
+              <img src={prev} alt='' />
             </button>
-            <button className="nextDate arrowButton">
-              <img src={next} alt="" />
+            <button className='nextDate arrowButton'>
+              <img src={next} alt='' />
             </button>
           </div>
         </div>
-        <div className="calendarMainButtons">
-          <select defaultValue="Week" className="viewSelect">
-            <option name="week" value="week">
+        <div className='calendarMainButtons'>
+          <select defaultValue='Week' className='viewSelect'>
+            <option name='week' value='week'>
               Week
             </option>
-            <option name="day" value="day">
+            <option name='day' value='day'>
               Day
             </option>
           </select>
-          <button className="addVisit">+ Add</button>
+          <button className='addVisit'>+ Add</button>
         </div>
       </Title>
       <CalendarWrapper>
         <HoursColumn>
-          <div className="hour" />
+          <div className='hour' />
           {hours.map(({ start }) => (
-            <div className="hour">{start}</div>
+            <div className='hour' key={start}>
+              {start}
+            </div>
           ))}
         </HoursColumn>
         <WorkersColumn>
-          {days.map(({ text, no }) => (
-            <div className="column" key={no}>
-              <div className="label">
-                <p className="numberOfDay">{no}</p>
-                <p className="textOfDay">{text}</p>
+          {currentWeek.map((item) => (
+            <div className='column'>
+              <div
+                className={
+                  item.format("DD.MM.YYYY") === dateValue.format("DD.MM.YYYY")
+                    ? "label currentDay"
+                    : "label"
+                }
+              >
+                <p className='numberOfDay'>{item.format("DDD")}</p>
+                <p className='textOfDay'>{item.format("dddd")}</p>
               </div>
               {hours.map(({ start }) => (
-                <CalendarField no={no} start={start} />
+                <CalendarField start={start} key={start} />
               ))}
             </div>
           ))}

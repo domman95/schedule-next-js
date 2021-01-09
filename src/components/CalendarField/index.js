@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 const visits = [
-  { day: "17", time: "12:00" },
-  { day: "18", time: "14:00" },
-  { day: "19", time: "10:30" },
+  { day: "05", time: "09:00" },
+  { day: "07", time: "08:00" },
+  { day: "06", time: "07:30" },
 ];
 
 const Field = styled.div``;
@@ -30,7 +30,12 @@ export default function CalendarField({ no, start }) {
   }, [top]);
 
   return (
-    <Field onClick={() => console.log(height)} className="field" ref={myRef}>
+    <Field
+      onClick={() => console.log(height)}
+      className='field'
+      ref={myRef}
+      key={start}
+    >
       {visits.map(({ day, time }) => {
         if (day === no && time === start) {
           return <Visit top={top} height={height} />;

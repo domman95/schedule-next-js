@@ -1,10 +1,13 @@
 import Page from "../src/components/Page";
+import { AppWrapper } from "../src/context/state";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Page>
-      <Component {...pageProps} />
-    </Page>
+    <AppWrapper>
+      <Page>
+        <Component {...pageProps} />
+      </Page>
+    </AppWrapper>
   );
 }
 

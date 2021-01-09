@@ -65,16 +65,16 @@ export default function WorkersCheckbox() {
     <StyledWorkerCheckbox>
       <Header>
         <h3>Workers</h3>
-        <button className="addWorker">+</button>
+        <button className='addWorker'>+</button>
       </Header>
       <ul>
         <li>
-          <div className="sqr" />
+          <div className='sqr' />
           <p>All</p>
         </li>
         {workers.map(({ id, name }) => (
           <li key={id}>
-            <div className="sqr" />
+            <div className='sqr' />
             <p>{name}</p>
           </li>
         ))}
